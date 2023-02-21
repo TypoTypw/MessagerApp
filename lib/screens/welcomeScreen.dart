@@ -11,6 +11,15 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: InkWell(
+          child: Image.asset('assets/icons/chat.png'),
+          onTap: () {
+            Navigator.pushNamed(context, 'loginScreen');
+          },
+        ),
+      ),
+    );
   }
 }

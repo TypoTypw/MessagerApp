@@ -8,6 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../firebase_auth/authenticationStatus.dart';
 import '../firebase_auth/firebaseAuthentication.dart';
 import '../firestore_handler/firestoreServiceHandler.dart';
+import 'package:chatterbug/customTheme.dart' as custom;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -41,21 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[500],
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.cancel),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-        title: const Text('Sign-In'),
-      ),
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
         progressIndicator: const CircularProgressIndicator(),
         blur: 2.5,
-        color: Colors.orangeAccent,
+        color: const Color.fromARGB(255, 201, 0, 118),
         child: ListView(
           scrollDirection: Axis.vertical,
           children: [
@@ -87,7 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const RegistrationScreen(),
                                 fullscreenDialog: true));
                           },
-                          child: const Text("REGISTER"),
+                          child: Text(
+                            "REGISTER",
+                            style: custom
+                                .AppTheme.customMainTheme.textTheme.headline6,
+                          ),
                         ),
                       ],
                     ),
@@ -108,7 +103,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orangeAccent, width: 1.0),
+                              color: Color.fromARGB(255, 201, 0, 118),
+                              width: 1.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -142,7 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                              color: Colors.orangeAccent, width: 1.0),
+                              color: Color.fromARGB(255, 201, 0, 118),
+                              width: 1.0),
                           borderRadius: BorderRadius.all(Radius.circular(32.0)),
                         ),
                         focusedBorder: OutlineInputBorder(
@@ -162,14 +159,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             Navigator.pushNamed(context, 'resetPasswordScreen');
                           },
-                          child: const Text("LINK"),
+                          child: Text(
+                            "LINK",
+                            style: custom
+                                .AppTheme.customMainTheme.textTheme.headline6,
+                          ),
                         ),
                       ],
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16.0),
                       child: Material(
-                        color: Colors.orangeAccent,
+                        color: const Color.fromARGB(255, 201, 0, 118),
                         borderRadius:
                             const BorderRadius.all(Radius.circular(30.0)),
                         elevation: 5.0,

@@ -59,7 +59,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                   SizedBox(
                     height: 200.0,
-                    child: Image.asset('images/carlogo.png'),
+                    child: Image.asset('assets/icons/tools.png'),
                   ),
                   const SizedBox(
                     height: 5.0,

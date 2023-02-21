@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'providers/userProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,8 +9,14 @@ import 'screens/loginScreen.dart';
 import 'screens/registration.dart';
 import 'screens/chatScreen.dart';
 import 'screens/forgotPassword.dart';
+import 'customTheme.dart' as custom;
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ),
+  );
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -37,9 +44,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Chatter Bug',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: custom.AppTheme.customMainTheme,
       initialRoute: 'welcomeScreen',
       routes: {
         'welcomeScreen': (context) => const WelcomeScreen(),
