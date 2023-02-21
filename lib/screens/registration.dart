@@ -141,7 +141,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                       children: <Widget>[
                         SizedBox(
                           height: 50.0,
-                          child: Image.asset('images/message.png'),
+                          child: Image.asset('assets/icons/message.png'),
                         ),
                         const SizedBox(
                           height: 15.0,
@@ -294,7 +294,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                             children: [
                               (imageFile == null)
                                   ? Image.asset(
-                                      'images/profile.png',
+                                      'assets/icons/profile.png',
                                       width: 10,
                                       height: 10,
                                     )
