@@ -26,7 +26,6 @@ class firestoreServices {
         {
           'name': name,
           'surname': surname,
-          'phone': phone,
           'online': true,
           'img': img,
         },
@@ -69,7 +68,6 @@ class firestoreServices {
         id: _authentication.currentUser.uid,
         name: snapshot.data()!['name'],
         surname: snapshot.data()!['surname'],
-        phone: snapshot.data()!['phone'],
         online: true,
         imgURL: snapshot.data()!['img']);
   }
@@ -80,7 +78,6 @@ class firestoreServices {
         id: id,
         name: snapshot.data()!['name'],
         surname: snapshot.data()!['surname'],
-        phone: snapshot.data()!['phone'],
         online: snapshot.data()!['online'],
         imgURL: snapshot.data()!['img']);
   }

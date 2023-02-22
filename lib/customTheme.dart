@@ -23,11 +23,11 @@ class AppTheme {
     iconTheme: const IconThemeData(
       color: Color.fromARGB(255, 201, 0, 118),
     ),
-    inputDecorationTheme: InputDecorationTheme(
+    inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(
         color: Color.fromARGB(255, 201, 0, 118),
       ),
-      hintStyle: new TextStyle(color: Colors.white),
+      hintStyle: TextStyle(color: Colors.white),
     ),
     textTheme: const TextTheme(
       headline1: TextStyle(

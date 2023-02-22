@@ -46,13 +46,13 @@ class MyApp extends StatelessWidget {
       title: 'Chatter Bug',
       debugShowCheckedModeBanner: false,
       theme: custom.AppTheme.customMainTheme,
-      initialRoute: 'welcomeScreen',
+      initialRoute: WelcomeScreen.screenID,
       routes: {
-        'welcomeScreen': (context) => const WelcomeScreen(),
-        'loginScreen': (context) => const LoginScreen(),
-        'registerScreen': (context) => const RegistrationScreen(),
-        'chatScreen': (context) => const ChatScreen(),
-        'resetPasswordScreen': (context) => const ResetPasswordScreen(),
+        WelcomeScreen.screenID: (context) => const WelcomeScreen(),
+        LoginScreen.screenID: (context) => const LoginScreen(),
+        RegistrationScreen.screenID: (context) => const RegistrationScreen(),
+        ChatScreen.screenID: (context) => const ChatScreen(),
+        ResetPasswordScreen.screenID: (context) => const ResetPasswordScreen(),
       },
     );
   }

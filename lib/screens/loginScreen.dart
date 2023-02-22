@@ -12,7 +12,7 @@ import 'package:chatterbug/customTheme.dart' as custom;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-  static String screenID = 'loginScreen';
+  static const String screenID = 'loginScreen';
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -59,11 +59,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     const SizedBox(
-                      height: 24.0,
+                      height: 100.0,
                     ),
-                    SizedBox(
-                      height: 200.0,
-                      child: Image.asset('assets/icons/chat.png'),
+                    Hero(
+                      tag: 'logo',
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/icons/chat.png'),
+                            fit: BoxFit.none,
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 5.0,
@@ -73,10 +82,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text("Don't have an account?"),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    const RegistrationScreen(),
-                                fullscreenDialog: true));
+                            Navigator.pushNamed(
+                                context, RegistrationScreen.screenID);
                           },
                           child: Text(
                             "REGISTER",
@@ -157,7 +164,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text("Forgot your password than click this"),
                         TextButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, 'resetPasswordScreen');
+                            Navigator.pushNamed(
+                                context, ResetPasswordScreen.screenID);
                           },
                           child: Text(
                             "LINK",
@@ -186,7 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                               if (_status == AuthStatus.successful) {
                                 _fireStoreInstance.signInProfile();
-                                Navigator.pushNamed(context, 'chatScreen');
+                                Navigator.pushNamed(
+                                    context, ChatScreen.screenID);
                               } else {
                                 final error =
                                     AuthExceptionHandler.generateErrorMessage(

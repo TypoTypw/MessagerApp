@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:chatterbug/customTheme.dart' as custom;
 import 'loginScreen.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -10,7 +10,7 @@ import '../firebase_auth/firebaseAuthentication.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
-  static String screenID = 'resetPasswordScreen';
+  static const String screenID = 'resetPasswordScreen';
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -34,15 +34,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey[500],
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.cancel),
-          onPressed: () {
-            Navigator.pushNamed(context, 'loginScreen');
-          },
-        ),
-      ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -84,8 +75,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.orangeAccent, width: 1.0),
+                        borderSide: BorderSide(
+                          color: Color.fromARGB(255, 201, 0, 118),
+                          width: 1.0,
+                        ),
                         borderRadius: BorderRadius.all(Radius.circular(32.0)),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -98,7 +91,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: Material(
-                      color: Colors.orangeAccent,
+                      color: const Color.fromARGB(255, 201, 0, 118),
                       borderRadius:
                           const BorderRadius.all(Radius.circular(30.0)),
                       elevation: 5.0,
@@ -107,13 +100,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           setState(() {
                             isLoading = true;
                           });
-                          print(_emailController.text.trim());
                           if (_formKey.currentState!.validate()) {
                             _status = await _authentication.resetPassword(
                               email: _emailController.text.trim(),
                             );
                             if (_status == AuthStatus.successful) {
-                              Navigator.of(context).pop();
+                              Navigator.pushNamed(
+                                  context, LoginScreen.screenID);
                             } else {
                               final error =
                                   AuthExceptionHandler.generateErrorMessage(
@@ -131,12 +124,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         },
                         minWidth: 200.0,
                         height: 42.0,
-                        child: const Text(
+                        child: Text(
                           'Reset',
+                          style: custom
+                              .AppTheme.customMainTheme.textTheme.headline6,
                         ),
                       ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
+                      child: InkWell(
+                        child: Column(
+                          children: const [
+                            Icon(Icons.exit_to_app_sharp),
+                            Text('Return')
+                          ],
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, 'loginScreen');
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
