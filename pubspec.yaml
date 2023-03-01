@@ -29,6 +29,7 @@ dependencies:
   firebase_storage: ^11.0.13
   image_picker: ^0.8.6+2
   image: ^4.0.15
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:
@@ -67,4 +68,8 @@ flutter:
     - family: SecretRegular
       fonts:
         - asset: assets/fonts/SecretRegular.ttf
+
+    - family: Cacha
+      fonts:
+        - asset: assets/fonts/Cacha.ttf
 

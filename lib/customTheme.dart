@@ -4,7 +4,7 @@ class AppTheme {
   static final ThemeData customMainTheme = ThemeData(
     primaryColor: const Color.fromARGB(255, 13, 13, 13),
     splashColor: Colors.yellow,
-    fontFamily: "HIKRANtrial",
+    fontFamily: "Cacha",
     scaffoldBackgroundColor: const Color.fromARGB(255, 71, 71, 71),
     appBarTheme: const AppBarTheme(
       color: Color.fromARGB(255, 71, 71, 71),
@@ -43,8 +43,8 @@ class AppTheme {
         color: Color.fromARGB(255, 201, 0, 118),
         fontSize: 18.0,
       ),
-      bodyText2: TextStyle(
-          fontSize: 20.0, fontFamily: 'HIKRANtrial', color: Colors.white),
+      bodyText2:
+          TextStyle(fontSize: 20.0, fontFamily: 'Cacha', color: Colors.white),
     ),
   );
 }

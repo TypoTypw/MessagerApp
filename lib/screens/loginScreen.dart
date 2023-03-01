@@ -9,6 +9,7 @@ import '../firebase_auth/authenticationStatus.dart';
 import '../firebase_auth/firebaseAuthentication.dart';
 import '../firestore_handler/firestoreServiceHandler.dart';
 import 'package:chatterbug/customTheme.dart' as custom;
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -61,25 +62,46 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(
                       height: 100.0,
                     ),
-                    Hero(
-                      tag: 'logo',
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage('assets/icons/chat.png'),
-                            fit: BoxFit.none,
+                    Row(
+                      children: [
+                        Hero(
+                          tag: 'logo',
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/icons/chat.png'),
+                                fit: BoxFit.none,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        DefaultTextStyle(
+                          style: const TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'Cacha',
+                          ),
+                          child: AnimatedTextKit(
+                            animatedTexts: [
+                              TypewriterAnimatedText('READY TO CHAT'),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(
                       height: 5.0,
                     ),
                     Row(
                       children: [
-                        const Text("Don't have an account?"),
+                        const Text(
+                          "Don't have an account?",
+                          style: TextStyle(fontSize: 15),
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
@@ -161,7 +183,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Row(
                       children: [
-                        const Text("Forgot your password than click this"),
+                        const Text(
+                          "Forgot your password than click this",
+                          style: TextStyle(fontSize: 15),
+                        ),
                         TextButton(
                           onPressed: () {
                             Navigator.pushNamed(
@@ -215,6 +240,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 42.0,
                           child: const Text(
                             'Log In',
+                            style: TextStyle(fontSize: 30),
                           ),
                         ),
                       ),
