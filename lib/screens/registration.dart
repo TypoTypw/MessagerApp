@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'chatScreen.dart';
 import '../firebase_auth/authenticationStatus.dart';
 import '../firebase_auth/firebaseAuthentication.dart';
@@ -81,8 +82,14 @@ class _RegisterScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _accountSetupCard(),
+      body: ModalProgressHUD(
+        inAsyncCall: isLoading,
+        progressIndicator: const CircularProgressIndicator(),
+        blur: 2.5,
+        color: const Color.fromARGB(255, 201, 0, 118),
+        child: Center(
+          child: _accountSetupCard(),
+        ),
       ),
     );
   }
@@ -200,7 +207,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                           ),
                           TextFormField(
                             controller: _passwordController,
-                            // obscureText: true,
+                            obscureText: true,
                             obscuringCharacter: '*',
                             textAlign: TextAlign.center,
                             onChanged: (value) {
@@ -242,7 +249,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 2.0,
+                            height: 10.0,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -260,12 +267,12 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 8.0,
+                            height: 15.0,
                           ),
                           TextFormField(
                             controller: _passwordConfirmController,
                             keyboardType: TextInputType.visiblePassword,
-                            // obscureText: true,
+                            obscureText: true,
                             obscuringCharacter: '*',
                             textAlign: TextAlign.center,
                             onChanged: (value) {
@@ -431,7 +438,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 15.0,
+                            height: 20.0,
                           ),
                           TextFormField(
                             controller: _surnameController,
@@ -464,43 +471,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                             ),
                           ),
                           const SizedBox(
-                            height: 15.0,
-                          ),
-                          TextFormField(
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            textAlign: TextAlign.center,
-                            onChanged: (value) {
-                              _formKey.currentState!.validate();
-                            },
-                            validator: (value) => value != null
-                                ? null
-                                : "Please enter your phone number",
-                            decoration: const InputDecoration(
-                              hintText: 'Enter your phone number',
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 10.0, horizontal: 20.0),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(32.0)),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color.fromARGB(255, 201, 0, 118),
-                                    width: 1.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(32.0)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.greenAccent, width: 2.0),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(32.0)),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 24.0,
+                            height: 10.0,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -533,7 +504,6 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                                             name: _nameController.text.trim(),
                                             surname:
                                                 _surnameController.text.trim(),
-                                            phone: _phoneController.text,
                                             img: imageURL);
 
                                     if (status != AuthStatus.successful) {
@@ -551,6 +521,7 @@ class _RegisterScreenState extends State<RegistrationScreen> {
                                       Navigator.pushNamed(
                                           context, ChatScreen.screenID);
                                     } else {
+                                      _authentication.currentUser.delete();
                                       final error = AuthExceptionHandler
                                           .generateErrorMessage(status);
                                       ScaffoldMessenger.of(context)

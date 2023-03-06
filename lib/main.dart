@@ -10,6 +10,7 @@ import 'screens/registration.dart';
 import 'screens/chatScreen.dart';
 import 'screens/forgotPassword.dart';
 import 'customTheme.dart' as custom;
+import 'providers/messageProvider.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -29,6 +30,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MessageProvider(),
         ),
       ],
       child: const MyApp(),

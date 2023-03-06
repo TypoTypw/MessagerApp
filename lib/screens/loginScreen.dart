@@ -219,6 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                               if (_status == AuthStatus.successful) {
                                 _fireStoreInstance.signInProfile();
+
                                 Navigator.pushNamed(
                                     context, ChatScreen.screenID);
                               } else {

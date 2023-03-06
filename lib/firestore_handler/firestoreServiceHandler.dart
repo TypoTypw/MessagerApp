@@ -15,7 +15,6 @@ class firestoreServices {
   Future<FirestoreStatus> createProfile({
     required String name,
     required String surname,
-    required String phone,
     required String img,
   }) async {
     try {
@@ -30,10 +29,12 @@ class firestoreServices {
           'img': img,
         },
       );
+      _authentication.currentUser.updateDisplayName(name);
       _status = FirestoreStatus.successful;
     } on FirebaseException catch (exception) {
       _status = FirestoreExceptionHandler.handleAuthException(exception);
     }
+
     return _status;
   }
 

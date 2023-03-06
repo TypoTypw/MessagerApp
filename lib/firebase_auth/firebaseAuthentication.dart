@@ -15,6 +15,7 @@ class AuthenticationService {
         email: email,
         password: password,
       );
+
       _status = AuthStatus.successful;
     } on FirebaseAuthException catch (exception) {
       _status = AuthExceptionHandler.handleAuthException(exception);
