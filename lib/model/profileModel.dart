@@ -11,4 +11,8 @@ class Person {
       required this.surname,
       required this.online,
       required this.imgURL});
+
+  Person reset() {
+    return Person(id: '', name: '', surname: '', online: false, imgURL: '');
+  }
 }

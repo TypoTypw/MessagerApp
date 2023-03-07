@@ -7,24 +7,27 @@ class UserProvider extends ChangeNotifier {
   final _authentication = AuthenticationService();
   final _fireStoreInstance = firestoreServices();
   late Person _user;
-  List<Person>? _friendsList;
+  Set<Person> _friendsList = {};
 
   void fetchUser() async {
     await _fireStoreInstance.retrieveUserProfile().then((value) {
       _user = value;
     });
+    await _fireStoreInstance
+        .retrieveUserFriendsList()
+        .then((value) => _friendsList = value);
     notifyListeners();
   }
 
   void logout() {
-    // _user = null;
-    _friendsList = [];
+    _user = _user.reset();
+    _friendsList = {};
     _fireStoreInstance.logoutProfile();
     _authentication.logout();
   }
 
   Person get user => _user;
-  List<Person>? get friendsList => _friendsList;
+  Set<Person> get friendsList => _friendsList;
 
   get fireStoreInstance => _fireStoreInstance;
 

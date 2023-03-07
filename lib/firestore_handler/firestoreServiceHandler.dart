@@ -1,8 +1,10 @@
+import 'dart:collection';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import '../model/messagesModel.dart';
 import 'firestoreStatus.dart';
 import '../firebase_auth/firebaseAuthentication.dart';
 import '/model/profileModel.dart';
@@ -11,6 +13,7 @@ class firestoreServices {
   final _firestore = FirebaseFirestore.instance;
   final _authentication = AuthenticationService();
   late FirestoreStatus _status;
+  List<String> _friendsUIDs = [];
 
   Future<FirestoreStatus> createProfile({
     required String name,
@@ -73,6 +76,16 @@ class firestoreServices {
         imgURL: snapshot.data()!['img']);
   }
 
+  Future<Person> retrieveUserProfileByID(String id) async {
+    final snapshot = await _firestore.collection('profiles').doc(id).get();
+    return Person(
+        id: id,
+        name: snapshot.data()!['name'],
+        surname: snapshot.data()!['surname'],
+        online: snapshot.data()!['online'],
+        imgURL: snapshot.data()!['img']);
+  }
+
   Future<Person> retrieveOtherProfile(String id) async {
     final snapshot = await _firestore.collection('profiles').doc(id).get();
     return Person(
@@ -92,5 +105,50 @@ class firestoreServices {
     uploadTask = reference.putFile(selectedFile);
     final snapshot = await uploadTask.whenComplete(() {});
     return await snapshot.ref.getDownloadURL();
+  }
+
+  Future<void> _retrieveUserFriendsUIDs() async {
+    FirebaseAuth.instance.userChanges().listen((loggedInUser) {
+      if (loggedInUser != null) {
+        _firestore
+            .collection('friends')
+            .doc(_authentication.currentUser.uid)
+            .collection('friendsList')
+            .snapshots()
+            .listen((snapshot) {
+          _friendsUIDs = [];
+          snapshot.docs.forEach((element) {
+            _friendsUIDs.add(element.id);
+          });
+        });
+      } else {
+        _friendsUIDs = [];
+      }
+    });
+  }
+
+  Future<Set<Person>> retrieveUserFriendsList() async {
+    await _retrieveUserFriendsUIDs();
+    Set<Person> friendsList = {};
+    for (final id in _friendsUIDs) {
+      await retrieveUserProfileByID(id).then((value) => friendsList.add(value));
+    }
+    return friendsList;
+  }
+
+  Future<Map<Timestamp, String>> getUserMessages(String id) async {
+    Map<Timestamp, String> messages = HashMap();
+    final snapshot = await _firestore
+        .collection('messages')
+        .doc(_authentication.currentUser.uid)
+        .collection(id)
+        .get();
+
+    for (var postDoc in snapshot.docs) {
+      messages.addAll({postDoc.get('date'): postDoc.get('text')});
+    }
+    var sortedMessages = Map.fromEntries(
+        messages.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
+    return sortedMessages;
   }
 }

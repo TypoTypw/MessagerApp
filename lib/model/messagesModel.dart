@@ -1,6 +1,5 @@
 class Messages {
-  final String sender;
-  final List<String> messages;
+  final Map<DateTime, String> messages;
 
-  Messages({required this.sender, required this.messages});
+  Messages({required this.messages});
 }

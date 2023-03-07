@@ -13,7 +13,7 @@ class AppTheme {
       ),
     ),
     colorScheme: const ColorScheme.light(
-      primary: Colors.black38,
+      primary: Colors.white,
       onPrimary: Colors.black38,
       secondary: Colors.indigoAccent,
     ),
@@ -40,11 +40,15 @@ class AppTheme {
         color: Colors.yellowAccent,
       ),
       subtitle1: TextStyle(
-        color: Color.fromARGB(255, 201, 0, 118),
+        color: Colors.white,
         fontSize: 18.0,
+        fontFamily: 'Cacha',
       ),
-      bodyText2:
-          TextStyle(fontSize: 20.0, fontFamily: 'Cacha', color: Colors.white),
+      bodyText2: TextStyle(
+        fontSize: 20.0,
+        fontFamily: 'Cacha',
+        color: Colors.white,
+      ),
     ),
   );
 }
