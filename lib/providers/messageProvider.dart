@@ -8,7 +8,7 @@ class MessageProvider extends ChangeNotifier {
   final _authentication = AuthenticationService();
   final _fireStoreInstance = firestoreServices();
 
-  Map<Timestamp, String> _messages = HashMap();
+  Map<Timestamp, List<String>> _messages = HashMap();
 
   void getMessages(String id) async {
     await _fireStoreInstance
@@ -17,5 +17,5 @@ class MessageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<Timestamp, String> get messages => _messages;
+  Map<Timestamp, List<String>> get messages => _messages;
 }

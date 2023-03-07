@@ -1,4 +1,7 @@
+import 'dart:collection';
+
 import 'package:chatterbug/providers/messageProvider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chatterbug/model/profileModel.dart';
 import 'package:provider/provider.dart';
@@ -168,12 +171,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              ListView(
+                                              Column(
                                                 children: [
-                                                  for (String text
-                                                      in allMessages()) ...[
-                                                    Text(text),
-                                                  ]
+                                                  for (int i = 0;
+                                                      i < allMessages().length;
+                                                      i++) ...[
+                                                    buildChatCard(
+                                                        allMessages())[i],
+                                                  ],
                                                 ],
                                               ),
                                             ],
@@ -198,13 +203,57 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  List<String> allMessages() {
-    List<String> messages = [];
-    _messageProvider.messages.forEach((key, value) {
-      messages.add(value);
+  List<List<String>> allMessages() {
+    List<List<String>> chatData = [];
+    for (Timestamp time in _messageProvider.messages.keys) {
+      chatData.add(_messageProvider.messages[time]!);
+    }
+
+    return chatData;
+  }
+
+  List<Padding> buildChatCard(List<List<String>> messages) {
+    List<Padding> chatCards = [];
+    messages.forEach((element) {
+      chatCards.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          height: 45,
+          width: MediaQuery.of(context).size.width - 80,
+          child: Align(
+            alignment: element[1] == _userProvider.user.id
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Container(
+              width: 200,
+              height: 35,
+              child: Card(
+                color: element[1] == _userProvider.user.id
+                    ? Colors.indigoAccent
+                    : const Color.fromARGB(255, 201, 0, 118),
+                elevation: 12,
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Align(
+                    alignment: element[1] == _userProvider.user.id
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
+                    child: Text(
+                      element[0],
+                      style: const TextStyle(
+                        fontFamily: 'Ariel',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ));
     });
-    print(messages);
-    return messages;
+    return chatCards;
   }
 
   String getImgURL() {

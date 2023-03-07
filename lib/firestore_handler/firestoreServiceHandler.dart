@@ -136,8 +136,8 @@ class firestoreServices {
     return friendsList;
   }
 
-  Future<Map<Timestamp, String>> getUserMessages(String id) async {
-    Map<Timestamp, String> messages = HashMap();
+  Future<Map<Timestamp, List<String>>> getUserMessages(String id) async {
+    Map<Timestamp, List<String>> messages = HashMap();
     final snapshot = await _firestore
         .collection('messages')
         .doc(_authentication.currentUser.uid)
@@ -145,8 +145,11 @@ class firestoreServices {
         .get();
 
     for (var postDoc in snapshot.docs) {
-      messages.addAll({postDoc.get('date'): postDoc.get('text')});
+      messages.addAll({
+        postDoc.get('date'): [postDoc.get('text'), postDoc.get('sender')]
+      });
     }
+
     var sortedMessages = Map.fromEntries(
         messages.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
     return sortedMessages;
