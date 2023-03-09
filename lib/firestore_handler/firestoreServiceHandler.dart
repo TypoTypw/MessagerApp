@@ -154,4 +154,28 @@ class firestoreServices {
         messages.entries.toList()..sort((e1, e2) => e1.key.compareTo(e2.key)));
     return sortedMessages;
   }
+
+  void sendMessages(String id, String message) async {
+    DateTime now = DateTime.now();
+    await _firestore
+        .collection('messages')
+        .doc(_authentication.currentUser.uid)
+        .collection(id)
+        .doc()
+        .set({
+      'text': message,
+      'date': now,
+      'sender': _authentication.currentUser.uid
+    });
+    await _firestore
+        .collection('messages')
+        .doc(id)
+        .collection(_authentication.currentUser.uid)
+        .doc()
+        .set({
+      'text': message,
+      'date': now,
+      'sender': _authentication.currentUser.uid
+    });
+  }
 }

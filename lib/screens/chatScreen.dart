@@ -22,12 +22,18 @@ class _ChatScreenState extends State<ChatScreen> {
   final _firestoreServices = firestoreServices();
   late UserProvider _userProvider;
   late MessageProvider _messageProvider;
+  final _textController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     _userProvider = Provider.of<UserProvider>(context);
     _userProvider.fetchUser();
-
     _messageProvider = Provider.of<MessageProvider>(context);
 
     return Scaffold(
@@ -111,6 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildFriendsCards(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+        shrinkWrap: true,
         scrollDirection: Axis.vertical,
         itemCount: _userProvider.friendsList.length,
         itemBuilder: (context, i) {
@@ -148,7 +155,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height -
-                                              200,
+                                              150,
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width -
@@ -180,6 +187,114 @@ class _ChatScreenState extends State<ChatScreen> {
                                                         allMessages())[i],
                                                   ],
                                                 ],
+                                              ),
+                                              Positioned(
+                                                bottom: 0,
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      width:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width -
+                                                              110,
+                                                      height: 50,
+                                                      child: TextFormField(
+                                                        controller:
+                                                            _textController,
+                                                        textCapitalization:
+                                                            TextCapitalization
+                                                                .sentences,
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          hintText: 'Type here',
+                                                          contentPadding:
+                                                              EdgeInsets
+                                                                  .symmetric(
+                                                                      vertical:
+                                                                          10.0,
+                                                                      horizontal:
+                                                                          20.0),
+                                                          border:
+                                                              OutlineInputBorder(
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        32.0)),
+                                                          ),
+                                                          enabledBorder:
+                                                              OutlineInputBorder(
+                                                            borderSide: BorderSide(
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        201,
+                                                                        0,
+                                                                        118),
+                                                                width: 1.0),
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        32.0)),
+                                                          ),
+                                                          focusedBorder:
+                                                              OutlineInputBorder(
+                                                            borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .indigo,
+                                                                    width: 2.0),
+                                                            borderRadius:
+                                                                BorderRadius.all(
+                                                                    Radius.circular(
+                                                                        32.0)),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          vertical: 5),
+                                                      child: Material(
+                                                        color: Colors.indigo,
+                                                        borderRadius:
+                                                            const BorderRadius
+                                                                    .all(
+                                                                Radius.circular(
+                                                                    30.0)),
+                                                        elevation: 5.0,
+                                                        child: MaterialButton(
+                                                          onPressed: () async {
+                                                            _firestoreServices
+                                                                .sendMessages(
+                                                                    _userProvider
+                                                                        .friendsList
+                                                                        .elementAt(
+                                                                            i)
+                                                                        .id,
+                                                                    _textController
+                                                                        .text);
+                                                            _textController
+                                                                .clear();
+                                                          },
+                                                          minWidth: 150.0,
+                                                          height: 30.0,
+                                                          child: const Text(
+                                                            'Send',
+                                                            style: TextStyle(
+                                                                fontSize: 30),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ));
@@ -214,7 +329,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   List<Padding> buildChatCard(List<List<String>> messages) {
     List<Padding> chatCards = [];
-    messages.forEach((element) {
+    for (var element in messages) {
       chatCards.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: SizedBox(
@@ -252,7 +367,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ));
-    });
+    }
     return chatCards;
   }
 
