@@ -136,8 +136,12 @@ class _ChatScreenState extends State<ChatScreen> {
                             height: 80,
                             width: 80,
                             placeholder: 'assets/icons/defualtIMG.png',
-                            image:
-                                _userProvider.friendsList.elementAt(i).imgURL,
+                            image: _userProvider.friendsList
+                                        .elementAt(i)
+                                        .imgURL !=
+                                    "null"
+                                ? _userProvider.friendsList.elementAt(i).imgURL
+                                : 'assets/icons/defualtIMG.png',
                             fit: BoxFit.cover,
                           ),
                         ),

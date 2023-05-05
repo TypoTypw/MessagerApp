@@ -13,6 +13,7 @@ class UserProvider extends ChangeNotifier {
     await _fireStoreInstance.retrieveUserProfile().then((value) {
       _user = value;
     });
+
     await _fireStoreInstance
         .retrieveUserFriendsList()
         .then((value) => _friendsList = value);

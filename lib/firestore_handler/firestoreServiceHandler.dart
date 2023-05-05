@@ -13,7 +13,7 @@ class firestoreServices {
   final _firestore = FirebaseFirestore.instance;
   final _authentication = AuthenticationService();
   late FirestoreStatus _status;
-  List<String> _friendsUIDs = [];
+  Set<String> _friendsUIDs = {};
 
   Future<FirestoreStatus> createProfile({
     required String name,
@@ -110,19 +110,17 @@ class firestoreServices {
   Future<void> _retrieveUserFriendsUIDs() async {
     FirebaseAuth.instance.userChanges().listen((loggedInUser) {
       if (loggedInUser != null) {
-        _firestore
-            .collection('friends')
-            .doc(_authentication.currentUser.uid)
-            .collection('friendsList')
-            .snapshots()
-            .listen((snapshot) {
-          _friendsUIDs = [];
-          snapshot.docs.forEach((element) {
-            _friendsUIDs.add(element.id);
-          });
-        });
+        var documentID = _firestore.collection('profiles').get();
+        documentID.then((value) => value.docs.forEach((element) {
+              _friendsUIDs.add(element.id);
+            }));
+        print(_friendsUIDs);
+        // _friendsUIDs = [];
+        // snapshot.docs.forEach((element)
+        //   _friendsUIDs.add(element.id);
+
       } else {
-        _friendsUIDs = [];
+        _friendsUIDs = {};
       }
     });
   }
@@ -130,9 +128,14 @@ class firestoreServices {
   Future<Set<Person>> retrieveUserFriendsList() async {
     await _retrieveUserFriendsUIDs();
     Set<Person> friendsList = {};
-    for (final id in _friendsUIDs) {
-      await retrieveUserProfileByID(id).then((value) => friendsList.add(value));
+
+    for (var id in _friendsUIDs) {
+      if (id != _authentication.currentUser.uid) {
+        await retrieveUserProfileByID(id)
+            .then((value) => friendsList.add(value));
+      }
     }
+
     return friendsList;
   }
 
